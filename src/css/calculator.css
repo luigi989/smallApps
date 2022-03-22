@@ -1,0 +1,12 @@
+.numberDisplay {
+    align-self: center;
+}
+
+.grid-start {
+    grid-column-start: 2;
+}
+.grid-5x4 {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}

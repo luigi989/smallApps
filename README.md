@@ -1,16 +1,33 @@
-## :microscope: Apps
+## :microscope: Small apps
 
-### :seedling: Install and launch
-1. Execute the following command in the folder apps/:
+This is a repo that contains small app solutions to the problems listed on [Apps idea collection](https://github.com/florinpop17/app-ideas)
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+## :seedling: Getting started
+
+This is an instruction to setting up the project locally.
+
+### Prerequisities
+
+Node and npm is needed to run react
+
+### How to install
+
+1. Open a terminal in this location and run
+
 ```
-  npm start
+npm install
 ```
-2. The website will be shown in your standard web browser.
 
-### :ballot_box_with_check: Prerequisites
-- Node 16.13.0 or later
-- Npm 8.1.0 or later
+2. Start the project
 
-### :triangular_flag_on_post: Further development
-Add more small apps into the project
+```
+npm start
+```
+
+## :triangular_flag_on_post: Future development
+
+* User friendly on mobile 
+* Filter function
 

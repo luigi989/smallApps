@@ -1,14 +1,12 @@
-import { render } from "react-dom";
+import ReactDOM from 'react-dom/client'
+import App from './App'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import App from './App';
+import './index.css'
 import Bin2Dec from "./routes/bin2Dec";
 import BorderRadiousPreviewer from "./routes/borderRadiousPreviewer";
 import Calculator from "./routes/calculator";
 
-const rootElement = document.getElementById('root')
-render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} >
@@ -26,5 +24,4 @@ render(
       </Route>
     </Routes>
   </BrowserRouter>,
-  rootElement
-);
+)

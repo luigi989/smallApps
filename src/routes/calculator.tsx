@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../css/calculator.css';
+// import '../css/calculator.css';
 /*
 * User can see a display showing the current number entered or the result of the last operation.
 * User can see an entry pad containing buttons for the digits 0-9, operations - '+', '-', '/', and '=', a 'C' button (for clear), and an 'AC' button (for clear all).
@@ -32,7 +32,7 @@ export default function Calculator() {
     setNumberDisplayed(total);
   }, [total, setTotal])
 
-  const saveNumber = (number, newNumber) => {
+  const saveNumber = (number : number, newNumber : number) => {
     var totNumber = number;
     if((number + newNumber).toString().length <= 8) { //Check if length of number is 8 or smaller
       totNumber = number + newNumber;
@@ -54,7 +54,7 @@ export default function Calculator() {
     }
   }
 
-  const setNum1orNum2 = (number) => {
+  const setNum1orNum2 = (number: number) => {
     if(!operatorSet) {
       setNumber1(number);
     } else {
@@ -65,17 +65,17 @@ export default function Calculator() {
   const removeLastNumber = () => {
     if(numberDisplayed > 0 && numberDisplayed.toString().length > 1) {
       var slicedNumber = numberDisplayed.toString().slice(0, -1);
-      setNumberDisplayed(slicedNumber);
-      setNum1orNum2(slicedNumber);
+      setNumberDisplayed(parseInt(slicedNumber));
+      setNum1orNum2(parseInt(slicedNumber));
     } else {
       setNumberDisplayed(0);
     }
   }
 
-  const removeZeroIfExists = (number) => {
+  const removeZeroIfExists = (number : number) => {
     var pattern = new RegExp("^0");
-    if(pattern.test(number)) {
-      return number.slice(1);
+    if(pattern.test(number.toString())) {
+      return number.toString().slice(1);
     } else {
       return number;
     }

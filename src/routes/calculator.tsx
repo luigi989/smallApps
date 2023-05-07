@@ -123,13 +123,6 @@ export default function Calculator() {
     }
   }
 
-  const handleKeyPress = (event) => {
-    if (event.keyCode === 13) {
-      console.log("Works");
-      saveNumber(num1orNum2(), event.target.textContent);
-    }
-  }
-
   return (
     <Page
       title='Calculator'

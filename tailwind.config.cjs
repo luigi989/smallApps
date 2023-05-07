@@ -7,6 +7,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "red": '#dc2626',
+        "blue": '#3b82f6',
+        "green": '#22c55e',
         //Dark mode
         "dbg": '#172d13',
         "dbgAlt": '#6bb77b',
@@ -24,7 +27,28 @@ module.exports = {
         "dtext": '#fff',
         "litext": '#000'
       },
+      animation: {
+        'blinkRed': 'blinkingRed 1s linear infinite',
+        'blinkBlue': 'blinkingBlue 1s linear infinite',
+        'blinkGreen': 'blinkingGreen 1s linear infinite',
+      },
+      keyframes: theme => ({
+        'blinkingRed': {
+          '0%, 100%': { boxShadow: '0px 0px 40px ' + theme('colors.red') },
+          '50%': { boxShadow: '0px 0px 0px ' + theme('colors.red') },
+        },
+        'blinkingBlue': {
+          '0%, 100%': { boxShadow: '0px 0px 40px ' + theme('colors.blue') },
+          '50%': { boxShadow: '0px 0px 0px ' + theme('colors.blue') },
+        },
+        'blinkingGreen': {
+          '0%, 100%': { boxShadow: '0px 0px 40px ' + theme('colors.green') },
+          '50%': { boxShadow: '0px 0px 0px ' + theme('colors.green') },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }

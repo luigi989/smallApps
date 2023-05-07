@@ -24,10 +24,12 @@ export default function BorderRadiousPreviewer() {
     navigator.clipboard.writeText(`border-radius: "${divStyle.borderRadius}";`);
   }
 
-  const setRadious = (func:() => void, value:string, e:React.ChangeEvent<HTMLInputElement>) => {
+  const setRadious = (setRadius:(val: number) => void, e:React.ChangeEvent<HTMLInputElement>) => {
     const num = parseInt(e.target.value);
+    if (!Number.isNaN(num)) {
+      setRadius(num);
+    }
   }
-  console.log(radiusLeftUpHorzontal);
   
   return (
     <Page
@@ -42,20 +44,20 @@ export default function BorderRadiousPreviewer() {
             <label className='place-self-center'>Horizontal</label>
 
             <label className='place-self-end'>Border left top:</label>
-            <input type="text" onChange={e => setRadiusLeftUpVertical(parseInt(e.target.value))}></input>
-            <input type="text" onChange={e => setRadiusLeftUpHorzontal(parseInt(e.target.value))}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusLeftUpVertical, e)}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusLeftUpHorzontal, e)}></input>
 
             <label className='place-self-end'>Border right top:</label>
-            <input type="text" onChange={e => setRadiusRightUpHorzontal(parseInt(e.target.value))}></input>
-            <input type="text" onChange={e => setRadiusRightUpVertical(parseInt(e.target.value))}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusRightUpHorzontal, e)}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusRightUpVertical, e)}></input>
 
             <label className='place-self-end'>Border right bottom:</label>
-            <input type="text" onChange={e => setRadiusRightDownVertical(parseInt(e.target.value))}></input>
-            <input type="text" onChange={e => setRadiusRightDownHorizontal(parseInt(e.target.value))}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusRightDownVertical, e)}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusRightDownHorizontal, e)}></input>
 
             <label className='place-self-end'>Border left bottom:</label>
-            <input type="text" onChange={e => setRadiusLeftDownHorizontal(parseInt(e.target.value))}></input>
-            <input type="text" onChange={e => setRadiusLeftDownVertical(parseInt(e.target.value))}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusLeftDownHorizontal, e)}></input>
+            <input className='text-litext' type="text" onChange={e => setRadious(setRadiusLeftDownVertical, e)}></input>
           </div>
 
           <Button onClick={copyToClipboard}>Copy CSS to clipboard</Button>
@@ -65,35 +67,3 @@ export default function BorderRadiousPreviewer() {
     </Page>
   );
 }
-
-{/* <div className='flex gap-2 justify-center items-center'>
-<label >Border left top:</label>
-<div className='flex flex-col gap-2'>
-  <input type="text" onChange={e => setRadiusLeftUpVertical(parseInt(e.target.value))}></input>
-  <input type="text" onChange={e => setRadiusLeftUpHorzontal(parseInt(e.target.value))}></input>
-</div>
-</div>
-
-<div className='flex gap-2 justify-center items-center'>
-<label>Border right top:</label>
-<div className='flex flex-col gap-2'>
-  <input type="text" onChange={e => setRadiusRightUpHorzontal(parseInt(e.target.value))}></input>
-  <input type="text" onChange={e => setRadiusRightUpVertical(parseInt(e.target.value))}></input>
-</div>
-</div>
-
-<div className='flex gap-2 justify-center items-center'>
-<label >Border right bottom:</label>
-<div className='flex flex-col gap-2'>
-  <input type="text" onChange={e => setRadiusRightDownVertical(parseInt(e.target.value))}></input>
-  <input type="text" onChange={e => setRadiusRightDownHorizontal(parseInt(e.target.value))}></input>
-</div>
-</div>
-
-<div className='flex gap-2 justify-center items-center'>
-<label>Border left bottom:</label>
-<div className='flex flex-col gap-2'>
-  <input type="text" onChange={e => setRadiusLeftDownHorizontal(parseInt(e.target.value))}></input>
-  <input type="text" onChange={e => setRadiusLeftDownVertical(parseInt(e.target.value))}></input>
-</div>
-</div> */}

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-// import '../css/calculator.css';
+import NumberButton from '../components/NumberButton';
+import OperatorButton from '../components/OperatorButton';
+import Page from '../components/Page';
 /*
 * User can see a display showing the current number entered or the result of the last operation.
 * User can see an entry pad containing buttons for the digits 0-9, operations - '+', '-', '/', and '=', a 'C' button (for clear), and an 'AC' button (for clear all).
@@ -8,7 +10,7 @@ import { useEffect, useState } from 'react';
     - the result of the preceding operation and the last number entered OR
     - the last two numbers entered OR
     - the last number entered
-- User can click the 'C' button to clear the last number or the last operation. If the users last entry was an operation the display will be updated to the value that preceded it.
+* User can click the 'C' button to clear the last number or the last operation. If the users last entry was an operation the display will be updated to the value that preceded it.
 * User can click the 'AC' button to clear all internal work areas and to set the display to 0.
 * User can see 'ERR' displayed if any operation would exceed the 8 digit maximum.
 
@@ -19,65 +21,63 @@ Bonus Features
 
 TODO: If a coma is added the coma is removed in the removeIfZeroExists function.
 */
+
+enum Operator {
+  Add = '+',
+  Subtract = '-',
+  Multiply = '*',
+  Divide = '/',
+  Equal = '=',
+  None = '',
+}
+
 export default function Calculator() {
   const [number1, setNumber1] = useState(0);
   const [number2, setNumber2] = useState(0);
-  const [total, setTotal] = useState(0);
 
-  const [operator, setOperator] = useState("empty");
-  const [operatorSet, setOperatorSet] = useState(false);
   const [numberDisplayed, setNumberDisplayed] = useState(0);
+  const [selectedOperator, setSelectedOperator] = useState(Operator.None);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    setNumberDisplayed(total);
-  }, [total, setTotal])
-
-  const saveNumber = (number : number, newNumber : number) => {
-    var totNumber = number;
-    if((number + newNumber).toString().length <= 8) { //Check if length of number is 8 or smaller
-      totNumber = number + newNumber;
-    }
-    totNumber = removeZeroIfExists(totNumber);
-    if(!operatorSet) {
-      setNumber1(totNumber);
+  const saveNumber = (number: number) => {
+    if (selectedOperator == Operator.None) {
+      if (number1.toString().length < 8) {
+        if (number1 != 0) {
+          var newNum = (number1 * 10) + number;
+          setNumber1(newNum);
+          setNumberDisplayed(newNum);
+        } else {
+          setNumber1(number);
+          setNumberDisplayed(number);
+        }
+      }
     } else {
-      setNumber2(totNumber);
-    }
-    setNumberDisplayed(totNumber);
-  }
-  
-  const num1orNum2 = () => {
-    if(!operatorSet) {
-      return number1;
-    } else {
-      return number2;
-    }
-  }
-
-  const setNum1orNum2 = (number: number) => {
-    if(!operatorSet) {
-      setNumber1(number);
-    } else {
-      setNumber2(number);
+      if (number2.toString().length < 8) {
+        if (number2 != 0) {
+          var newNum = (number2 * 10) + number;
+          setNumber2(newNum);
+          setNumberDisplayed(newNum);
+        } else {
+          setNumber2(number);
+          setNumberDisplayed(number);
+        }
+      }
     }
   }
 
   const removeLastNumber = () => {
-    if(numberDisplayed > 0 && numberDisplayed.toString().length > 1) {
-      var slicedNumber = numberDisplayed.toString().slice(0, -1);
-      setNumberDisplayed(parseInt(slicedNumber));
-      setNum1orNum2(parseInt(slicedNumber));
+    if (selectedOperator == Operator.None) {
+      if (number1 != 0) {
+        var newNum = Math.floor(number1 / 10)
+        setNumber1(newNum)
+        setNumberDisplayed(newNum);
+      }
     } else {
-      setNumberDisplayed(0);
-    }
-  }
-
-  const removeZeroIfExists = (number : number) => {
-    var pattern = new RegExp("^0");
-    if(pattern.test(number.toString())) {
-      return number.toString().slice(1);
-    } else {
-      return number;
+      if (number2 != 0) {
+        var newNum = Math.floor(number2 / 10)
+        setNumber2(newNum)
+        setNumberDisplayed(newNum);
+      }
     }
   }
 
@@ -85,73 +85,91 @@ export default function Calculator() {
     setNumberDisplayed(0);
     setNumber1(0);
     setNumber2(0);
-    setOperatorSet(false);
+    setSelectedOperator(Operator.None);
+    setError('');
   }
-  
-  const saveOperator = (operator) => {
-    setOperator(operator);
-    setOperatorSet(true);
-    setNumberDisplayed(operator);
+
+  const saveOperator = (operator : Operator) => {
+    setSelectedOperator(operator);
   }
 
   const calculate = () => {
-    if(operatorSet && (number1 > 0 || number2 > 0)) {
-      switch(operator) {
-        case '+':
-          (number1 + number2).toString().length > 8 ? setTotal("ERR") : setTotal(parseFloat(number1) + parseFloat(number2)); 
+    if (selectedOperator && (number1 > 0 || number2 > 0)) {
+      var calculatedNumber = 0;
+      switch (selectedOperator) {
+        case Operator.Add:
+          calculatedNumber = number1 + number2;
           break;
-        case '-':
-          (number1 - number2).toString().length > 8 ? setTotal("ERR") : setTotal(parseFloat(number1) - parseFloat(number2)); 
+        case Operator.Subtract:
+          calculatedNumber = number1 - number2;
           break;
-        case '*':
-          (number1 * number2).toString().length > 8 ? setTotal("ERR") : setTotal(parseFloat(number1) * parseFloat(number2)); 
+        case Operator.Multiply:
+          calculatedNumber = number1 * number2;
           break;
-        case '/': 
-          (number1 / number2).toString().length > 8 ? setTotal("ERR") : setTotal(parseFloat(number1) / parseFloat(number2)); 
-        break;
+        case Operator.Divide:
+          calculatedNumber = number1 / number2;
+          break;
         default:
           break;
+      }      
+      if(calculatedNumber.toString().length > 8) {
+        setError('ERR');
+      } else {
+        setNumberDisplayed(calculatedNumber);
+        setNumber1(calculatedNumber);
       }
-    } else {
-      console.log("Something went wrong");
+      setNumber2(0);
+      setSelectedOperator(Operator.Equal);
     }
   }
 
   const handleKeyPress = (event) => {
-    if(event.keyCode === 13) {
+    if (event.keyCode === 13) {
       console.log("Works");
       saveNumber(num1orNum2(), event.target.textContent);
     }
   }
 
   return (
-    <div className="content text-light">
-        <h2>Calculator</h2>
-        <p>{numberDisplayed}</p>
-        <div className='grid-5x4'>
-          <button className='grid-start' onClick={clearNumbers}>AC</button>
-          <button onClick={removeLastNumber}>C</button>
-          <button onClick={e => saveOperator(e.target.textContent)}>/</button>
-
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>7</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>8</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>9</button>
-          <button onClick={e => saveOperator(e.target.textContent)}>*</button>
-
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>4</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>5</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>6</button>
-
-          <button onClick={e => saveOperator(e.target.textContent)}>-</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>1</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>2</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>3</button>
-          <button onClick={e => saveOperator(e.target.textContent)}>+</button>
-
-          <button className='grid-start' onClick={e => saveNumber(num1orNum2() + e.target.textContent)}>0</button>
-          <button onClick={e => saveNumber(num1orNum2(), e.target.textContent)}>.</button>
-          <button onClick={calculate}>=</button>
+    <Page
+      title='Calculator'
+      desc='A tool to calculate numbers, even floating numbers.'>
+      <div>
+        <div className='w-full flex justify-between'>
+          <p>{selectedOperator}</p>
+          {!error && <p>{numberDisplayed}</p>}
+          {error && <p>{error}</p>}
         </div>
-    </div>
+        <div className='grid grid-rows-5 grid-cols-4 gap-1'>
+          <OperatorButton value={'AC'} func={() => clearNumbers()} />
+          <OperatorButton value={'C'} func={() => removeLastNumber()} />
+          <OperatorButton value={' '} />
+          <OperatorButton value={'/'} func={() => saveOperator(Operator.Divide)} />
+
+          <NumberButton value={7} func={() => saveNumber(7)} />
+          <NumberButton value={8} func={() => saveNumber(8)} />
+          <NumberButton value={9} func={() => saveNumber(9)} />
+
+          <OperatorButton value={'*'} func={() => saveOperator(Operator.Multiply)} />
+
+          <NumberButton value={4} func={() => saveNumber(4)} />
+          <NumberButton value={5} func={() => saveNumber(5)} />
+          <NumberButton value={6} func={() => saveNumber(6)} />
+          <OperatorButton value={'-'} func={() => saveOperator(Operator.Subtract)} />
+
+          <NumberButton value={1} func={() => saveNumber(1)} />
+          <NumberButton value={2} func={() => saveNumber(2)} />
+          <NumberButton value={3} func={() => saveNumber(3)} />
+          <OperatorButton value={'+'} func={() => saveOperator(Operator.Add)} />
+
+          <OperatorButton value={' '} />
+          <NumberButton value={0} func={() => saveNumber(0)} />
+          <OperatorButton value={' '} />
+          <OperatorButton value={'='} func={() => calculate()} />
+        </div>
+
+      </div>
+    </Page>
+
   );
 }

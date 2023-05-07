@@ -34,7 +34,7 @@ export default function Bin2Dec() {
           maxLength={8}
           onChange={e => setBinaryNumber(parseInt(e.target.value))}
           placeholder="Type here"
-          className="input input-bordered" />
+          className="input input-bordered text-litext" />
         <Button onClick={() => convertToDec(binaryNumber)}>Convert</Button>
       </div>
       <h4 className='mt-4 text-xl'>Result: {result}</h4>

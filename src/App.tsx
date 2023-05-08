@@ -9,7 +9,8 @@ function App() {
         <NavLink to="/borderRadiousPreviewer" className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Border radious previewer</NavLink> <br />
         <NavLink to="/calc" className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Calculator</NavLink> <br />
         <NavLink to="/christmasLights" className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Christmas lights</NavLink> <br />
-        <NavLink to='/causeEffect' className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Cause Effect</NavLink>
+        <NavLink to='/causeEffect' className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Cause Effect</NavLink> <br />
+        <NavLink to='countdownTimer' className={({ isActive }) => (isActive ? 'linkActive' : 'linkInactive')}>Countdown Timer</NavLink>
       </Drawer>
       <Outlet />
     </div>

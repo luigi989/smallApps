@@ -6,6 +6,7 @@ import Bin2Dec from "./routes/bin2Dec";
 import BorderRadiousPreviewer from "./routes/borderRadiousPreviewer";
 import Calculator from "./routes/calculator";
 import ChristmasLights from './routes/christmasLights';
+import CauseEffect from './routes/causeEffect';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="borderRadiousPreviewer" element={<BorderRadiousPreviewer />} />
         <Route path="calc" element={<Calculator />} />
         <Route path="christmasLights" element={<ChristmasLights />} />
+        <Route path='causeEffect' element={<CauseEffect />} />
         <Route
           path="*"
           element={
